@@ -1,22 +1,18 @@
-from mcp.server.fastmcp import FastMCP
+from fastapi import FastAPI
 import uvicorn
 import os
 
-mcp = FastMCP("ocr-mcp-server")
+app = FastAPI()
 
-@mcp.tool()
-async def ping():
-
+@app.get("/")
+async def root():
     return {
-        "status": "success",
-        "message": "MCP Server Working"
+        "status": "healthy"
     }
-
-app = mcp.streamable_http_app()
 
 if __name__ == "__main__":
 
-    port = int(os.environ.get("PORT", 8000))
+    port = int(os.environ.get("PORT", 8080))
 
     uvicorn.run(
         app,
