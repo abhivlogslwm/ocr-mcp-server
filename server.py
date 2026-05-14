@@ -1,21 +1,18 @@
-from fastapi import FastAPI
 from mcp.server.fastmcp import FastMCP
 import uvicorn
 import os
 
-mcp = FastMCP("OCR-MCP")
+mcp = FastMCP("ocr-mcp-server")
 
 @mcp.tool()
 async def ping():
 
     return {
         "status": "success",
-        "message": "MCP server working"
+        "message": "MCP Server Working"
     }
 
-app = FastAPI()
-
-app.mount("/", mcp.sse_app())
+app = mcp.streamable_http_app()
 
 if __name__ == "__main__":
 
